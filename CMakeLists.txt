@@ -20,7 +20,7 @@ set(STM32_MCU_FLAGS  "-mcpu=cortex-m55 -mfpu=fpv5-d16 -mfloat-abi=hard -mcmse" )
 
 #Linker options
 set(STM32_LINKER_SCRIPT linker/STM32N657xx.ld)
-set(STM32_LINKER_OPTION)
+set(STM32_LINKER_OPTION "-u _printf_float")
 
 # Set the project name
 set(CMAKE_PROJECT_NAME Appli)
@@ -91,6 +91,7 @@ set(STM32_Drivers_Src
     ${CMAKE_CURRENT_SOURCE_DIR}/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_rif.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_cacheaxi.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_uart.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_ramcfg.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Drivers/BSP/STM32N6570-DK/stm32n6570_discovery_xspi.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Drivers/BSP/STM32N6570-DK/stm32n6570_discovery.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Drivers/BSP/Components/mx66uw1g45g/mx66uw1g45g.c
@@ -108,6 +109,7 @@ set(STM32_Drivers_Src
     ${CMAKE_CURRENT_SOURCE_DIR}/Middlewares/stedgeai-lib/Npu/ll_aton/ll_sw_integer.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Middlewares/stedgeai-lib/Npu/ll_aton/ll_aton_lib.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Middlewares/stedgeai-lib/Npu/ll_aton/ll_aton_lib_sw_operators.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Middlewares/stedgeai-lib/Npu/ll_aton/ll_aton_lib_sw_operators.c
 )
 
 
@@ -120,7 +122,9 @@ ${CMAKE_CURRENT_SOURCE_DIR}/Middlewares/stedgeai-lib/Lib/GCC/ARMCortexM55
 set (MX_LINK_LIBS 
     STM32_Drivers
     ${TOOLCHAIN_LINK_LIBRARIES}
+    ${CMAKE_CURRENT_SOURCE_DIR}/Middlewares/stedgeai-lib/Lib/GCC/ARMCortexM55/NetworkRuntime1100_CM55_GCC.a
 )
+
 # Interface library for includes and symbols
 add_library(stm32cubemx INTERFACE)
 target_include_directories(stm32cubemx INTERFACE ${MX_Include_Dirs})
